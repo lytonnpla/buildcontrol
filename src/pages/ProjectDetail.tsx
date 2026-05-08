@@ -2,18 +2,12 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
-  Calculator, 
-  FileText, 
   Calendar, 
-  Receipt, 
   History, 
   LayoutPanelLeft,
   Settings,
   Download,
   Share2,
-  HardHat,
-  MapPin,
-  CircleDollarSign,
   Clock,
   Plus,
   ChevronRight
@@ -28,11 +22,10 @@ const Overview = () => (
        <div className="md:col-span-2 bg-sheet/50 border border-border rounded-xl p-6">
           <h3 className="text-lg font-bold text-white mb-4">Project Summary</h3>
           <p className="text-slate-400 text-sm leading-relaxed">
-             A complete luxury residential construction in the Sintra hills. 
-             The project focuses on sustainable materials and open-plan Mediterranean design. 
-             Currently in the structural phase with foundation completed.
+             Essential construction management overview. 
+             Focus on timeline precision and site operation tracking.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 mt-8">
              <div>
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Start Date</p>
                 <p className="text-sm text-white font-mono">Jan 12, 2026</p>
@@ -40,10 +33,6 @@ const Overview = () => (
              <div>
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Est. Completion</p>
                 <p className="text-sm text-white font-mono">Aug 24, 2026</p>
-             </div>
-             <div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Team Size</p>
-                <p className="text-sm text-white font-mono">12 Members</p>
              </div>
              <div>
                 <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Last Update</p>
@@ -150,66 +139,6 @@ const ScheduleModule = () => (
   </div>
 );
 
-const InvoiceModule = () => (
-  <div className="space-y-6">
-    <div className="flex items-center justify-between">
-      <h3 className="font-bold text-white text-lg">Project Invoicing</h3>
-      <button className="bg-brand text-black px-4 py-2 rounded-lg text-sm font-bold flex items-center gap-2">
-        <Receipt size={16} /> Generate Invoice
-      </button>
-    </div>
-
-    <div className="bg-sheet/50 border border-border rounded-xl overflow-hidden">
-       <table className="w-full text-left text-sm">
-          <thead className="bg-[#0D0E11] text-slate-500 text-[10px] font-bold uppercase tracking-widest border-b border-border">
-             <tr>
-                <th className="px-6 py-4">Invoice #</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Description</th>
-                <th className="px-6 py-4">Issue Date</th>
-                <th className="px-6 py-4 text-right">Amount</th>
-                <th className="px-6 py-4"></th>
-             </tr>
-          </thead>
-          <tbody className="divide-y divide-white/[0.03]">
-             {[
-               { id: 'INV-4201', status: 'Paid', desc: 'Down payment / Mobilization', date: 'Jan 10, 2026', amount: '$48,000.00' },
-               { id: 'INV-4202', status: 'Paid', desc: 'Phase 1 Completion', date: 'Feb 20, 2026', amount: '$72,000.00' },
-               { id: 'INV-4203', status: 'Overdue', desc: 'Phase 2 Materials', date: 'Apr 05, 2026', amount: '$15,400.00' },
-             ].map((inv, i) => (
-               <tr key={i} className="hover:bg-white/[0.02] transition-colors">
-                  <td className="px-6 py-4 font-mono text-white text-xs">{inv.id}</td>
-                  <td className="px-6 py-4">
-                     <span className={cn(
-                       "px-2 py-0.5 rounded text-[10px] font-bold uppercase",
-                       inv.status === 'Paid' ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
-                     )}>{inv.status}</span>
-                  </td>
-                  <td className="px-6 py-4 text-slate-400">{inv.desc}</td>
-                  <td className="px-6 py-4 text-slate-500 text-xs">{inv.date}</td>
-                  <td className="px-6 py-4 text-right font-mono text-white font-bold">{inv.amount}</td>
-                  <td className="px-6 py-4 text-right">
-                     <button className="text-slate-600 hover:text-white"><Download size={16} /></button>
-                  </td>
-               </tr>
-             ))}
-          </tbody>
-       </table>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-       <div className="bg-brand/5 border border-brand/20 p-6 rounded-xl">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Billed</p>
-          <p className="text-2xl font-black text-white font-mono">$135,400.00</p>
-       </div>
-       <div className="bg-emerald-500/5 border border-emerald-500/20 p-6 rounded-xl">
-          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">Total Received</p>
-          <p className="text-2xl font-black text-emerald-500 font-mono">$120,000.00</p>
-       </div>
-    </div>
-  </div>
-);
-
 const DailyLogModule = () => (
   <div className="space-y-6">
     <div className="flex items-center justify-between">
@@ -270,172 +199,9 @@ const DailyLogModule = () => (
   </div>
 );
 
-const ContractModule = () => {
-  const [signed, setSigned] = React.useState(false);
-
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div className="lg:col-span-2 space-y-6">
-        <div className="bg-sheet/50 border border-border rounded-xl p-8 h-[600px] overflow-y-auto technical-grid bg-white/[0.01]">
-          <div className="max-w-2xl mx-auto space-y-8 text-slate-300">
-             <div className="text-center space-y-2 pb-8 border-b border-white/5">
-                <h3 className="text-2xl font-bold text-white uppercase tracking-tighter">CONSTRUCTION SERVICE AGREEMENT</h3>
-                <p className="text-xs font-mono text-slate-500">REF: BC-PRO-2026-0042</p>
-             </div>
-             
-             <section className="space-y-4">
-                <h4 className="font-bold text-white uppercase text-xs tracking-widest border-l-4 border-brand pl-3">1. Scope of Work</h4>
-                <p className="text-sm leading-relaxed">
-                   The Contractor agrees to perform construction services for the Client as described in Estimate #EST-42. 
-                   This includes all structural engineering, site management, and labor necessary for the "Villa Mediterranean" project.
-                </p>
-             </section>
-
-             <section className="space-y-4">
-                <h4 className="font-bold text-white uppercase text-xs tracking-widest border-l-4 border-brand pl-3">2. Payment Schedule</h4>
-                <p className="text-sm leading-relaxed">
-                   Payments shall be made in stages: 20% mobilization, 30% structural completion, 40% finishing, 10% final quality sign-off.
-                </p>
-             </section>
-
-             <section className="space-y-4">
-                <h4 className="font-bold text-white uppercase text-xs tracking-widest border-l-4 border-brand pl-3">3. Timeline</h4>
-                <p className="text-sm leading-relaxed">
-                   Estimated commencement on Jan 12, 2026. Substantial completion estimated by Aug 24, 2026. 
-                   Delays due to force majeure will be documented in the Daily Log.
-                </p>
-             </section>
-
-             <div className="pt-12 grid grid-cols-2 gap-12 border-t border-white/5 mt-12">
-                <div className="space-y-4">
-                   <p className="text-[10px] font-bold text-slate-500 uppercase">Contractor Signature</p>
-                   <div className="h-16 border-b border-slate-800 flex items-end pb-2 italic text-brand font-serif">
-                      BuildControl Pro Admin
-                   </div>
-                </div>
-                <div className="space-y-4">
-                   <p className="text-[10px] font-bold text-slate-500 uppercase">Client Signature</p>
-                   <div className="h-16 border-b border-slate-800 flex items-center justify-center relative">
-                      {!signed ? (
-                        <span className="text-slate-700 text-[10px] uppercase font-bold italic">Waiting for signature...</span>
-                      ) : (
-                        <motion.span 
-                          initial={{ opacity: 0, pathLength: 0 }}
-                          animate={{ opacity: 1, pathLength: 1 }}
-                          className="font-serif italic text-white text-xl"
-                        >
-                          John Smith
-                        </motion.span>
-                      )}
-                   </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-6">
-        <div className="bg-brand/5 border border-brand/20 rounded-xl p-6">
-           <h4 className="font-bold text-white mb-4 flex items-center gap-2">
-             <FileText size={18} className="text-brand" />
-             Contract Status
-           </h4>
-           <div className="space-y-4">
-              <div className="flex justify-between items-center text-sm">
-                 <span className="text-slate-400">Status</span>
-                 <span className={cn(
-                   "px-2 py-0.5 rounded text-[10px] font-bold uppercase",
-                   signed ? "bg-emerald-500 text-black" : "bg-brand text-black"
-                 )}>{signed ? 'Signed & Valid' : 'Awaiting Review'}</span>
-              </div>
-              <div className="flex justify-between items-center text-sm">
-                 <span className="text-slate-400">Sent on</span>
-                 <span className="text-white font-mono">May 01, 2026</span>
-              </div>
-           </div>
-           {!signed && (
-             <button 
-               onClick={() => setSigned(true)}
-               className="w-full mt-6 bg-brand text-black font-bold py-3 rounded-lg hover:shadow-[0_0_15px_rgba(242,125,38,0.4)] transition-all flex items-center justify-center gap-2"
-             >
-                Sign Contract Now
-             </button>
-           )}
-           <button className="w-full mt-3 bg-white/5 text-white font-bold py-3 rounded-lg hover:bg-white/10 transition-all border border-border border-dashed">
-              Request Modification
-           </button>
-        </div>
-
-        <div className="bg-sheet/50 border border-border rounded-xl p-6">
-           <h4 className="font-bold text-white mb-4 flex items-center gap-2 text-sm uppercase tracking-widest">
-             Actions
-           </h4>
-           <div className="space-y-3">
-              <button className="w-full flex items-center justify-between px-4 py-3 bg-white/5 rounded-lg text-slate-300 text-sm hover:text-white transition-colors">
-                 <span>Download PDF Copy</span>
-                 <Download size={16} />
-              </button>
-              <button className="w-full flex items-center justify-between px-4 py-3 bg-white/5 rounded-lg text-slate-300 text-sm hover:text-white transition-colors">
-                 <span>Email to Stakeholders</span>
-                 <Share2 size={16} />
-              </button>
-           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const EstimateModule = () => (
-  <div className="bg-sheet/50 border border-border rounded-xl overflow-hidden">
-     <div className="p-4 border-b border-border flex items-center justify-between">
-        <h3 className="font-bold text-white text-sm uppercase tracking-wider">Itemized Budget Estimate</h3>
-        <button className="text-brand text-xs font-bold flex items-center gap-1 hover:underline">
-           <Download size={14} /> Export CSV
-        </button>
-     </div>
-     <table className="w-full text-left text-sm">
-        <thead className="bg-[#0D0E11] text-slate-500 text-[10px] font-bold uppercase tracking-widest border-b border-border">
-           <tr>
-              <th className="px-6 py-3">Category</th>
-              <th className="px-6 py-3">Item Description</th>
-              <th className="px-6 py-3 text-right">Qty</th>
-              <th className="px-6 py-3 text-right">Unit Price</th>
-              <th className="px-6 py-3 text-right">Total</th>
-           </tr>
-        </thead>
-        <tbody className="divide-y divide-white/[0.03]">
-           {[
-             { cat: 'Materials', desc: 'Pre-mixed Concrete (C25/30)', qty: '120 m³', price: '$95', total: '$11,400' },
-             { cat: 'Labor', desc: 'Structural Team (F1 Foundation)', qty: '480 hrs', price: '$22', total: '$10,560' },
-             { cat: 'Machinery', desc: 'Excavator Rental (5 days)', qty: '1 unit', price: '$1,200', total: '$6,000' },
-             { cat: 'Materials', desc: 'Rebar Steel (12mm)', qty: '2.5 tons', price: '$1,100', total: '$2,750' },
-           ].map((row, i) => (
-             <tr key={i} className="hover:bg-white/[0.02] transition-colors group">
-                <td className="px-6 py-4 font-bold text-slate-300">{row.cat}</td>
-                <td className="px-6 py-4 text-slate-400">{row.desc}</td>
-                <td className="px-6 py-4 text-right font-mono text-slate-400 tracking-tighter">{row.qty}</td>
-                <td className="px-6 py-4 text-right font-mono text-slate-400 tracking-tighter">{row.price}</td>
-                <td className="px-6 py-4 text-right font-mono text-white tracking-tighter font-bold">{row.total}</td>
-             </tr>
-           ))}
-        </tbody>
-        <tfoot className="bg-brand/5">
-           <tr className="border-t border-brand/20">
-              <td colSpan={4} className="px-6 py-4 text-right text-xs font-bold text-slate-400 uppercase tracking-widest">Total Estimated Amount</td>
-              <td className="px-6 py-4 text-right font-mono text-xl font-black text-brand tracking-tighter">$30,710.00</td>
-           </tr>
-        </tfoot>
-     </table>
-  </div>
-);
-
 const tabs = [
   { id: 'overview', label: 'Overview', icon: LayoutPanelLeft },
-  { id: 'estimate', label: 'Estimate', icon: Calculator },
-  { id: 'contract', label: 'Contract', icon: FileText },
   { id: 'schedule', label: 'Schedule', icon: Calendar },
-  { id: 'invoice', label: 'Invoice', icon: Receipt },
   { id: 'daily-log', label: 'Daily Log', icon: History },
 ];
 
@@ -508,10 +274,7 @@ export default function ProjectDetail() {
             transition={{ duration: 0.2 }}
           >
             {activeTab === 'overview' && <Overview />}
-            {activeTab === 'estimate' && <EstimateModule />}
-            {activeTab === 'contract' && <ContractModule />}
             {activeTab === 'schedule' && <ScheduleModule />}
-            {activeTab === 'invoice' && <InvoiceModule />}
             {activeTab === 'daily-log' && <DailyLogModule />}
           </motion.div>
         </AnimatePresence>

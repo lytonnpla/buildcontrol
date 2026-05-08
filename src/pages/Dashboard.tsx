@@ -27,6 +27,8 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { cn } from '../lib/utils';
+import { Project, Client } from '../types';
+import { INITIAL_PROJECTS, INITIAL_CLIENTS } from '../constants';
 
 const data = [
   { name: 'Jan', revenue: 4000, costs: 2400 },
@@ -37,26 +39,7 @@ const data = [
   { name: 'Jun', revenue: 2390, costs: 3800 },
 ];
 
-interface Project {
-  id: string;
-  name: string;
-  client: string;
-  location: string;
-  progress: number;
-  status: string;
-  value: string;
-  type: string;
-  team?: number;
-  deadline?: string;
-}
-
-interface Client {
-  id: string;
-  name: string;
-  company: string;
-  email: string;
-  status: string;
-}
+// Types are now imported from ../types.ts
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -68,8 +51,8 @@ export default function Dashboard() {
     const storedProjects = localStorage.getItem('BUILDCONTROL_PROJECTS');
     const storedClients = localStorage.getItem('BUILDCONTROL_CLIENTS');
     
-    if (storedProjects) setProjects(JSON.parse(storedProjects));
-    if (storedClients) setClients(JSON.parse(storedClients));
+    setProjects(storedProjects ? JSON.parse(storedProjects) : INITIAL_PROJECTS);
+    setClients(storedClients ? JSON.parse(storedClients) : INITIAL_CLIENTS);
   }, []);
 
   const stats = useMemo(() => {
@@ -77,10 +60,12 @@ export default function Dashboard() {
     const activeClients = clients.filter(c => c.status === 'Active');
     
     const totalRev = projects.reduce((acc, p) => {
-      const val = parseFloat(p.value.replace(/[^0-9.]/g, '')) || 0;
+      const pValue = p.value || '';
+      const val = parseFloat(pValue.replace(/[^0-9.]/g, '')) || 0;
       // Handle M/K suffixes if any
-      if (p.value.toUpperCase().includes('M')) return acc + (val * 1000000);
-      if (p.value.toUpperCase().includes('K')) return acc + (val * 1000);
+      const upperVal = pValue.toUpperCase();
+      if (upperVal.includes('M')) return acc + (val * 1000000);
+      if (upperVal.includes('K')) return acc + (val * 1000);
       return acc + val;
     }, 0);
 
@@ -91,7 +76,15 @@ export default function Dashboard() {
     });
 
     return [
-      { id: 'projects', label: 'Active Projects', value: activeProjects.length.toString(), icon: Briefcase, color: 'text-brand', items: activeProjects },
+      { 
+        id: 'projects', 
+        label: 'Active Projects', 
+        value: activeProjects.length.toString(), 
+        subValue: `of ${projects.length} total`,
+        icon: Briefcase, 
+        color: 'text-brand', 
+        items: activeProjects 
+      },
       { id: 'revenue', label: 'Total Revenue', value: formatter.format(totalRev), icon: CircleDollarSign, color: 'text-emerald-400', total: totalRev },
       { id: 'clients', label: 'Active Clients', value: activeClients.length.toString(), icon: Users, color: 'text-blue-400', items: activeClients },
       { id: 'uptime', label: 'System Uptime', value: '99.9%', icon: Clock, color: 'text-purple-400' },
@@ -144,7 +137,12 @@ export default function Dashboard() {
                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">+12%</span>
               </div>
               <h3 className="text-slate-400 text-xs font-medium uppercase tracking-wider">{stat.label}</h3>
-              <p className="text-2xl font-bold text-white mt-1 font-mono tracking-tight">{stat.value}</p>
+              <div className="flex items-baseline gap-2 mt-1">
+                <p className="text-2xl font-bold text-white font-mono tracking-tight">{stat.value}</p>
+                {stat.subValue && (
+                  <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{stat.subValue}</p>
+                )}
+              </div>
               {stat.id !== 'uptime' && (
                 <div className="mt-4 flex items-center gap-1 text-[10px] font-black text-brand uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
                   View Analysis <ChevronRight size={10} />
@@ -193,7 +191,7 @@ export default function Dashboard() {
                       <div key={p.id} className="bg-white/5 border border-white/5 p-4 rounded-xl flex items-center justify-between group hover:border-brand/30 transition-all">
                         <div>
                           <h4 className="text-white font-bold text-sm tracking-tight">{p.name}</h4>
-                          <p className="text-[10px] text-slate-500 uppercase tracking-widest">{p.client} • {p.location}</p>
+                          <p className="text-[10px] text-slate-500 uppercase tracking-widest">{p.client} • {p.city || p.province || 'Unknown Location'}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-brand font-mono text-xs">{p.value}</p>

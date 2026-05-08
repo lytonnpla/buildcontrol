@@ -1,0 +1,10 @@
+{
+  "name": "BuildControl Pro",
+  "description": "A comprehensive construction management system (ERP) for estimates, contracts, scheduling, and daily logs.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

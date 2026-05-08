@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand: #F27D26; /* Safety Orange */
+  --color-sheet: #151619; /* Technical Slate */
+  --color-border: #2A2C32;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0A0A0B] text-slate-200 antialiased font-sans;
+  }
+}
+
+.technical-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(42, 44, 50, 0.5) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42, 44, 50, 0.5) 1px, transparent 1px);
+}
+
